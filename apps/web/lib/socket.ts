@@ -68,7 +68,7 @@ export function useGhostSocket(opts: UseSocketOptions): SocketController {
   useEffect(() => {
     if (!enabled || !token) return;
 
-    const socket: TypedSocket = io(WS_URL, {
+    const socket: TypedSocket = io(WS_URL || undefined, {
       auth: { token },
       transports: ['websocket', 'polling'],
       reconnectionAttempts: 5,
