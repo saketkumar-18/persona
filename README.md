@@ -7,7 +7,13 @@ without registration, profiles, or persistent data. Sessions are ephemeral token
 end-to-end encrypted and self-destruct; location is coarsened on-device before it ever leaves
 the browser.
 
-![CI](https://github.com/your-org/GhostLink/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/saketkumar-18/GhostLink/actions/workflows/ci.yml/badge.svg)
+
+## Deploy in one click (free)
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/new?snippet=https://github.com/saketkumar-18/GhostLink/blob/master/render.yaml)
+
+Backend + Redis land automatically. See [docs/DEPLOY_FREE.md](docs/DEPLOY_FREE.md) for the Vercel frontend steps.
 
 ## Why GhostLink
 
