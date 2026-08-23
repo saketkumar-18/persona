@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.*
+
+# Builds
+dist/
+build/
+.next/
+out/
+coverage/
+*.tsbuildinfo
+
+# Environment files (see .env.example for templates)
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Next.js PWA artifacts
+apps/web/public/sw.js
+apps/web/public/sw.js.map
+apps/web/public/service-worker.js
+
+# Docker volumes (redis.pwd is user-edited; keep the committed default)
+docker-compose.override.yml

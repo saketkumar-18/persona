@@ -1,0 +1,62 @@
+name: ghostlink
+
+services:
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: ["sh", "-c", "if [ -n \"$REDIS_PASSWORD\" ]; then exec redis-server --appendonly no --save '' --requirepass \"$REDIS_PASSWORD\"; else exec redis-server --appendonly no --save ''; fi"]
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-}
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  server:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.server
+    restart: unless-stopped
+    depends_on:
+      redis:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      SERVER_PORT: 3000
+      REDIS_URL: redis://:${REDIS_PASSWORD:-}@redis:6379
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:3001}
+      GHOSTLINK_PUBLIC_URL: ${GHOSTLINK_PUBLIC_URL:-http://localhost:3001}
+      SESSION_JWT_SECRET: ${SESSION_JWT_SECRET:-}
+      SESSION_JWT_TTL_SECONDS: ${SESSION_JWT_TTL_SECONDS:-14400}
+      PARTNER_CONTROL_SECRET: ${PARTNER_CONTROL_SECRET:-}
+      OUTBOUND_LATENCY_MS: ${OUTBOUND_LATENCY_MS:-}
+      NEARBY_DEFAULT_RADIUS_METERS: ${NEARBY_DEFAULT_RADIUS_METERS:-3000}
+      DEFAULT_SESSION_TTL_SECONDS: ${DEFAULT_SESSION_TTL_SECONDS:-14400}
+      MAX_SESSION_TTL_SECONDS: ${MAX_SESSION_TTL_SECONDS:-86400}
+      DEFAULT_ROOM_TTL_SECONDS: ${DEFAULT_ROOM_TTL_SECONDS:-3600}
+      MAX_ROOM_TTL_SECONDS: ${MAX_ROOM_TTL_SECONDS:-86400}
+      MAX_INVITES_PER_SESSION: ${MAX_INVITES_PER_SESSION:-30}
+      MAX_REPORTS_PER_SESSION: ${MAX_REPORTS_PER_SESSION:-20}
+    ports:
+      - "3000:3000"
+
+  web:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.web
+    restart: unless-stopped
+    depends_on:
+      - server
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:3000}
+      NEXT_PUBLIC_WS_URL: ${NEXT_PUBLIC_WS_URL:-http://localhost:3000}
+    ports:
+      - "3001:3001"
+
+volumes:
+  redis-data:

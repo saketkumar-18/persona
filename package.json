@@ -1,0 +1,37 @@
+{
+  "name": "ghostlink",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Privacy-first social discovery platform with anonymous temporary sessions and real-time encrypted communication",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "build:shared": "npm run build -w @ghostlink/shared",
+    "build:server": "npm run build -w @ghostlink/shared -w @ghostlink/server",
+    "dev": "concurrently -n server,web -c green,magenta \"npm run dev -w @ghostlink/server\" \"npm run dev -w @ghostlink/web\"",
+    "dev:server": "npm run dev -w @ghostlink/server",
+    "dev:web": "npm run dev -w @ghostlink/web",
+    "start": "npm run start -w @ghostlink/server",
+    "test": "npm run test --workspaces --if-present",
+    "test:shared": "npm run test -w @ghostlink/shared",
+    "test:server": "npm run test:cov -w @ghostlink/server",
+    "test:web": "npm run test -w @ghostlink/web",
+    "lint": "npm run lint --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "generate-icons": "node scripts/generate-icons.mjs",
+    "docker:up": "docker compose up --build -d redis server web",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "sharp": "^0.33.5"
+  }
+}

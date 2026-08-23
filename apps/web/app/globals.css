@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #faf9fd;
+  --fg: #191530;
+  --card: #ffffff;
+  --border: #e5e1f0;
+  --muted: #6f6a86;
+  --accent: #6d57d8;
+  --accent-soft: #f0ecff;
+}
+
+.dark {
+  --bg: #110a24;
+  --fg: #f2efff;
+  --card: #1b1236;
+  --border: #2c1d58;
+  --muted: #a79fd0;
+  --accent: #a78bfa;
+  --accent-soft: #241547;
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+@layer components {
+  .card {
+    @apply rounded-2xl border bg-[var(--card)] border-[var(--border)] shadow-sm;
+  }
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-[var(--accent)] px-5 py-3 font-semibold text-white transition hover:opacity-90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-[var(--border)] px-4 py-2.5 font-medium transition hover:bg-[var(--accent-soft)] active:scale-[0.98] disabled:opacity-50;
+  }
+  .btn-danger {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-red-300 px-4 py-2.5 font-medium text-red-500 transition hover:bg-red-50 active:scale-[0.98] dark:border-red-900 dark:hover:bg-red-950;
+  }
+  .input {
+    @apply w-full rounded-xl border border-[var(--border)] bg-[var(--card)] px-4 py-2.5 outline-none transition focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)];
+  }
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-[var(--border)] px-3 py-1 text-xs font-medium text-[var(--muted)];
+  }
+}
+
+/* Subtle grid backdrop for the landing hero */
+.hero-grid {
+  background-image: radial-gradient(var(--border) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
