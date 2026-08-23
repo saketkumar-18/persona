@@ -30,4 +30,4 @@ services:
     name: ghostlink-redis
     plan: free
     # GhostLink is ephemeral by design — no persistence needed.
-    maxmemoryPolicy: noeviction
+    ipAllowList: []  # allow any source (public demo)
