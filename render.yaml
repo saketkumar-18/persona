@@ -1,19 +1,19 @@
 # GhostLink — Render "Deploy to Render" blueprint (free tier).
-# One-click setup: https://render.com/docs/blueprint-spec
-# Creates the backend + optional Redis and wires ALLOWED_ORIGINS automatically.
+# Blueprint button: https://render.com/new?snippet=<github-url>/blob/master/render.yaml
+# Creates the backend + Redis pair and wires secrets/URLs automatically.
 services:
   - type: web
     name: ghostlink-api
     runtime: docker
     plan: free
-    dockerfilePath: docker/Dockerfile.server
+    dockerfilePath: ./docker/Dockerfile.server
     dockerContext: .
     envVars:
       - key: NODE_ENV
         value: production
-      - key: ALLOWED_ORIGINS
-        value: http://localhost:3001,https://ghostlink-web.vercel.app
-      # Render's free tier injects $PORT; the server honors it (see core/config.ts).
+      # Render injects $PORT on free instances; the server honors PORT (see apps/server/src/core/config.ts).
+      # SECRET_GHOSTLINK_ALLOWED_ORIGINS: set this in the dashboard AFTER Vercel gives you the frontend URL,
+      # e.g. https://ghostlink-saketkumar.vercel.app (comma-separated list).
       - key: SESSION_JWT_SECRET
         generateValue: true
       - key: PARTNER_CONTROL_SECRET
@@ -29,5 +29,5 @@ services:
   - type: redis
     name: ghostlink-redis
     plan: free
-    # GhostLink is ephemeral by design — no persistence needed, maxmemory keeps it tiny.
+    # GhostLink is ephemeral by design — no persistence needed.
     maxmemoryPolicy: noeviction

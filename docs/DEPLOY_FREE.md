@@ -1,106 +1,100 @@
-# GhostLink — Free Deployment Guide ($0, no credit card)
+# GhostLink — $0 Production Deployment
 
-This stack runs GhostLink in production completely free:
+This stack puts GhostLink online for free, no credit card, on two accounts you create via GitHub/GitHub OAuth:
 
-| Piece | Provider (free tier) | Cost |
+| Piece | Provider | Why it's free |
 | --- | --- | --- |
-| Web frontend (Next.js PWA) | **Vercel** Hobby | free |
-| Backend (NestJS + Socket.IO, Docker) | **Render** free instance | free |
-| Data store (Redis) | Render free Redis *or* in-memory fallback | free |
+| Frontend (Next.js PWA) | **Vercel** | Hobby plan auto-attached to your GitHub |
+| Backend (NestJS + Socket.IO, Docker) | **Render** | Free "Docker" web service tier |
+| Key/value store (Redis) | Render free Redis *or* server memory fallback | No persistence needed — data is ephemeral |
 
-All data in GhostLink is ephemeral and TTL-bounded, so the free-tier Redis (or the
-built-in memory fallback) is fully sufficient — nothing needs durability.
+The backend runs the `docker/Dockerfile.server` image on Render's free instance. Render injects `$PORT`;
+`apps/server/src/core/config.ts` already reads `SERVER_PORT ?? PORT ?? 3000`.
+
+> **Free-tier reality check**: Render free instances sleep after ~15 min idle. First request after sleep
+> takes a few seconds. Fine for a demo/hobby app. Render will migrate old free plans after 90 days; see
+> their announcement for details.
 
 ---
 
-## 1) Push the code to GitHub
+## 1) Backend + Redis on Render (one-click Blueprint)
+
+The repo root has a `render.yaml` Blueprint that provisions **both services**:
+
+1. Open this URL in a browser while logged into Render with GitHub:
+
+   `https://render.com/new?snippet=https://github.com/<YOUR-GH-USER>/GhostLink/blob/master/render.yaml`
+
+   (Replace `<YOUR-GH-USER>` with your GitHub username.)
+
+2. Render reads the Blueprint and creates:
+   - `ghostlink-api` — Docker web service, free plan, build from repo root
+   - `ghostlink-redis` — free Redis, auto-wired into `REDIS_URL`
+   - Random `SESSION_JWT_SECRET` / `PARTNER_CONTROL_SECRET`
+
+3. **Wait for the first deploy** (Render logs show it building the image; ~5-10 min).
+
+4. Once live, verify: open `https://<your-render-slug>.onrender.com/api/health`
+   → `{"status":"ok","redis":"up",...}`.
+
+5. **Set the CORS allowlist for your frontend** (do this AFTER step 2 below or on a placeholder):
+   Render → `ghostlink-api` → **Environment** → add:
+
+   ```
+   ALLOWED_ORIGINS=https://<your-vercel-app>.vercel.app
+   ```
+
+   (Include any additional/production domains, comma-separated.)
+
+---
+
+## 2) Frontend on Vercel
+
+1. Go to https://vercel.com/new and import the GitHub repo.
+2. Settings:
+   - **Framework Preset**: Next.js (auto-detected)
+   - **Root Directory**: `apps/web`
+   - **Build Command**: leave default (`next build`)
+   - **Output Directory**: leave default (`.next`)
+   - **Install Command**: leave default (`npm install`) — Vercel respects the workspace lockfile
+3. Environment variables (before first deploy):
+
+   ```
+   NEXT_PUBLIC_API_URL=https://<render-slug>.onrender.com
+   NEXT_PUBLIC_WS_URL=https://<render-slug>.onrender.com
+   ```
+
+   (`socket.io-client` connects to `/socket.io` under that origin; keep http(s).)
+
+4. Deploy. Vercel auto-detects Next.js and the monorepo from the root `package-lock.json`.
+   Your app URL looks like `https://ghostlink-<you>.vercel.app`.
+
+5. Update `ALLOWED_ORIGINS` on Render to this exact URL (Environment tab) and reconcile the service.
+
+---
+
+## 3) Verify production
 
 ```bash
-gh auth login            # one-time: GitHub account → web or CLI flow
-gh repo create ghostlink --public --source=. --push
-# or if the repo already exists:
-git remote add origin https://github.com/<you>/ghostlink.git
-git push -u origin main
+curl -s https://<render-slug>.onrender.com/api/health          # status: ok
+curl -s https://<vercel-app>.vercel.app/api/health             # CORS preflight should be green
 ```
 
----
-
-## 2) Backend on Render (free web service)
-
-**Option A — one-click Blueprint:**
-
-Visit https://render.com/docs/deploy-to-render (or: Render → New → **Blueprint**),
-point it at your `ghostlink` repo. `render.yaml` provisions:
-
-- `ghostlink-api` — Docker web service (free plan), health check `/api/health`
-- `ghostlink-redis` — free Redis, wired automatically into `REDIS_URL`
-- `SESSION_JWT_SECRET` / `PARTNER_CONTROL_SECRET` auto-generated as Render secrets
-
-Then fix the CORS allowlist for your actual frontend URL:
-Render → `ghostlink-api` → Environment → set
-`ALLOWED_ORIGINS=https://<your-vercel-app>.vercel.app` (add any custom domain too).
-
-**Option B — manual:**
-
-1. Render → New → Web Service → pick repo, branch `main`
-2. Runtime: **Docker**, Dockerfile path: `docker/Dockerfile.server`
-3. Plan: **Free**
-4. Add env vars:
-   - `SESSION_JWT_SECRET` (long random string, e.g. `openssl rand -hex 48`)
-   - `PARTNER_CONTROL_SECRET` (same idea)
-   - `ALLOWED_ORIGINS=https://<your-vercel-app>.vercel.app`
-   - `REDIS_URL` (optional — from Render Redis, Upstash, or leave empty for memory fallback)
-5. Health check path: `/api/health`
-
-Render injects `$PORT` for the free instance — the server honors it
-(`SERVER_PORT` → `PORT` → 3000, see `apps/server/src/core/config.ts`).
-
-Note: Render's free instance sleeps after ~15 min idle; the first request after sleep
-takes a few seconds. Acceptable for a demo/hobby deployment.
-
-Your backend URL will look like `https://ghostlink-api.onrender.com`.
-
----
-
-## 3) Frontend on Vercel (free)
-
-1. https://vercel.com/new → import the GitHub repo
-2. **Root Directory: `apps/web`** (important — monorepo)
-3. Framework preset: **Next.js**
-4. **Build Command:** `npm run build` (builds the shared package first)
-5. Output directory: leave default (`.next`)
-6. Environment variables:
-   - `NEXT_PUBLIC_API_URL=https://ghostlink-api.onrender.com` (your Render URL)
-   - `NEXT_PUBLIC_WS_URL=https://ghostlink-api.onrender.com` (same as API — socket.io
-     connects on `/socket.io` of this origin; use `https`, not `wss://`)
-7. Deploy. Vercel auto-detects the monorepo from the root `package-lock.json`.
-
-Your app URL will look like `https://ghostlink-web.vercel.app`.
-
----
-
-## 4) Wire CORS + final check
-
-- Confirm `ALLOWED_ORIGINS` on Render contains your exact Vercel URL.
-- Open `https://<your-vercel-app>.vercel.app/api/health` (or the Render URL + `/api/health`)
-  → should return `{"status":"ok",...}`.
-- Open the app, start a session, open the same site in a second browser/tab and random-match
-  against yourself (same Render instance = same process, works even in free-tier single replica).
+- Ghost: open the site, tap "Start anonymous session," check the dashboard loads.
+- Match: two browser tabs/devices → Match tab → should pair via the live Redis queue.
 
 ### Optional extras (still free)
 
-- **Upstash Redis** (serverless, generous free tier): copy the internal URL into Render's
-  `REDIS_URL`. Persistence is still disabled/unneeded.
-- **Prometheus scraping**: set a ≥16-char `METRICS_TOKEN` on Render, scrape
-  `GET /api/metrics` with a matching `metrics-token` header.
+- **Upstash Redis** — serverless Redis with a generous free tier; copy its `rediss://` URL into
+  Render's `REDIS_URL` for a warmer cache.
+- **Prometheus scrape**: set a ≥16-char `METRICS_TOKEN` on Render, then scrape
+  `GET /api/metrics` with a `metrics-token` header.
+- **Custom domain**: Vercel supports `vercel.app` custom domains free; add your domain in
+  Vercel → Settings → Domains, then append it to Render's `ALLOWED_ORIGINS`.
 
----
+### Limits of the free stack
 
-## Notes & limits of the free stack
-
-- Single backend instance → realtime matching works; multi-replica Socket.IO fan-out would
-  need the `socket.io-redis` adapter (not needed at hobby scale).
-- Vercel Hobby bills nothing for this usage; no serverless functions are used (Next runs in
-  Node server mode).
-- If you outgrow the free tier: Render paid instance ($7/mo) or Fly.io both work with the
-  same Dockerfiles without code changes.
+- Single backend replica: realtime matching works; multi-replica Socket.IO fan-out needs
+  `socket.io-redis` adapter (not needed at hobby scale).
+- Redis maxmemoryPolicy `noeviction`: keys expire naturally; if Redis fills (unlikely for a demo),
+  favorites just evict — no data loss since everything is ephemeral.
