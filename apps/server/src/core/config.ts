@@ -41,7 +41,8 @@ export function loadRuntimeConfig(): AppRuntimeConfig {
   const secretSource = rawSecret && rawSecret.length >= 32 ? rawSecret : randomHex(64);
 
   return {
-    serverPort: envInt('SERVER_PORT', 3000),
+    // PaaS detail: Render/Railway/Heroku inject $PORT; explicit SERVER_PORT wins.
+    serverPort: envInt('SERVER_PORT', envInt('PORT', 3000)),
     redisUrl: process.env.REDIS_URL || null,
     sessionJwtSecret: secretSource,
     sessionJwtTtlSeconds: envInt('SESSION_JWT_TTL_SECONDS', 4 * 60 * 60),
