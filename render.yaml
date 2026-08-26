@@ -12,8 +12,8 @@ services:
       - key: NODE_ENV
         value: production
       # Render injects $PORT on free instances; the server honors PORT (see apps/server/src/core/config.ts).
-      # SECRET_GHOSTLINK_ALLOWED_ORIGINS: set this in the dashboard AFTER Vercel gives you the frontend URL,
-      # e.g. https://ghostlink-saketkumar.vercel.app (comma-separated list).
+      - key: ALLOWED_ORIGINS
+        value: https://ghostlink-web-eight.vercel.app,https://ghostlink-845.netlify.app
       - key: SESSION_JWT_SECRET
         generateValue: true
       - key: PARTNER_CONTROL_SECRET

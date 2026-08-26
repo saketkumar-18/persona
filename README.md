@@ -11,9 +11,16 @@ the browser.
 
 ## Deploy in one click (free)
 
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/new?snippet=https://github.com/saketkumar-18/GhostLink/blob/master/render.yaml)
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/saketkumar-18/GhostLink)
 
 Backend + Redis land automatically. See [docs/DEPLOY_FREE.md](docs/DEPLOY_FREE.md) for the Vercel frontend steps.
+
+## Live demo
+
+**https://ghostlink-web-eight.vercel.app** — no signup, no login. One tap creates an
+ephemeral ghost session; scan the QR on any phone to jump straight into the lobby.
+
+![GhostLink QR — scan to chat](docs/assets/ghostlink-qr.png)
 
 ## Why GhostLink
 

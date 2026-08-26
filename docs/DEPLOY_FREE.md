@@ -23,9 +23,7 @@ The repo root has a `render.yaml` Blueprint that provisions **both services**:
 
 1. Open this URL in a browser while logged into Render with GitHub:
 
-   `https://render.com/new?snippet=https://github.com/<YOUR-GH-USER>/GhostLink/blob/master/render.yaml`
-
-   (Replace `<YOUR-GH-USER>` with your GitHub username.)
+   `https://render.com/deploy?repo=https://github.com/saketkumar-18/GhostLink`
 
 2. Render reads the Blueprint and creates:
    - `ghostlink-api` — Docker web service, free plan, build from repo root

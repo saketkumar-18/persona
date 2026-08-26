@@ -2,7 +2,8 @@
 const nextConfig = {
   reactStrictMode: true,
   // Production builds emit a minimal self-contained server for container deploys (Fly.io).
-  output: 'standalone',
+  // NEXT_OUTPUT=export switches to a fully static export for static hosts (Vercel static, Netlify drop).
+  output: process.env.NEXT_OUTPUT === 'export' ? 'export' : 'standalone',
   async headers() {
     return [
       {
