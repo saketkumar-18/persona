@@ -250,33 +250,35 @@ export class RealtimeGateway
   ): Promise<void> {
     const ack = takeAck(socket);
     const me = await this.mySession(socket);
-    if (!me || !ack) return;
+    // chat:message may arrive without an ack callback (fire-and-forget
+    // clients) — process it regardless; ack only when one was provided.
+    if (!me) return;
     const roomId = body?.roomId;
     const data = body?.data;
     if (!roomId || typeof data !== 'string' || data.length === 0) {
-      ack({ ok: false, error: ERROR_CODES.MALFORMED });
+      ack?.({ ok: false, error: ERROR_CODES.MALFORMED });
       return;
     }
     if (data.length > MAX_CHAT_DATA_LENGTH) {
-      ack({ ok: false, error: ERROR_CODES.PAYLOAD_TOO_LARGE });
+      ack?.({ ok: false, error: ERROR_CODES.PAYLOAD_TOO_LARGE });
       return;
     }
     const room = await this.rooms.getRoom(roomId);
     if (!room || !room.members.includes(me.id)) {
-      ack({ ok: false, error: ERROR_CODES.NOT_IN_ROOM, hint: 'leave happened automatically — rejoin via room:join' });
+      ack?.({ ok: false, error: ERROR_CODES.NOT_IN_ROOM, hint: 'leave happened automatically — rejoin via room:join' });
       return;
     }
     if (new Set(room.members).has(me.id) === false) {
-      ack({ ok: false, error: ERROR_CODES.NOT_IN_ROOM });
+      ack?.({ ok: false, error: ERROR_CODES.NOT_IN_ROOM });
       return;
     }
     const partnerId = room.members.find((m) => m !== me.id);
     if (!partnerId) {
-      ack({ ok: false, error: ERROR_CODES.NOT_IN_ROOM });
+      ack?.({ ok: false, error: ERROR_CODES.NOT_IN_ROOM });
       return;
     }
     if (await this.moderation.isBlocked(me.id, partnerId)) {
-      ack({ ok: false, error: ERROR_CODES.BLOCKED });
+      ack?.({ ok: false, error: ERROR_CODES.BLOCKED });
       return;
     }
     this.metrics.recordMessage(Buffer.byteLength(data));
@@ -285,7 +287,7 @@ export class RealtimeGateway
       data,
       receivedAt: Date.now(),
     });
-    ack({ ok: true });
+    ack?.({ ok: true });
   }
 
   @SubscribeMessage('chat:typing')
