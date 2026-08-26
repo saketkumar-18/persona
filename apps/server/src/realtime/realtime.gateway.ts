@@ -24,12 +24,11 @@ import { ModerationService } from '../moderation/moderation.service';
 import { MetricsService } from '../core/metrics.service';
 import { DiscoveryService } from '../discovery/discovery.service';
 import { AppRuntimeConfig } from '../core/config';
+import { takeAck } from '../core/ack-stash.adapter';
 
 interface SocketData {
   sessionId: string;
 }
-
-type Ack = (response: unknown) => void;
 
 /**
  * GhostLink realtime plane (Socket.IO, path /socket.io, default namespace).
@@ -128,8 +127,8 @@ export class RealtimeGateway
   async onMatchStart(
     @ConnectedSocket() socket: Socket,
     @MessageBody() body: { source?: string; zoneCell?: string },
-    ack?: Ack,
   ): Promise<void> {
+    const ack = takeAck(socket);
     const me = await this.mySession(socket);
     if (!me || !ack) return;
 
@@ -166,7 +165,8 @@ export class RealtimeGateway
   }
 
   @SubscribeMessage('match:cancel')
-  async onMatchCancel(@ConnectedSocket() socket: Socket, _body: unknown, ack?: Ack): Promise<void> {
+  async onMatchCancel(@ConnectedSocket() socket: Socket, _body: unknown): Promise<void> {
+    const ack = takeAck(socket);
     const me = await this.mySession(socket);
     if (!me) return;
     await this.matching.leaveQueue(me.id);
@@ -192,8 +192,8 @@ export class RealtimeGateway
   async onRoomJoin(
     @ConnectedSocket() socket: Socket,
     @MessageBody() body: { roomId?: string },
-    ack?: Ack,
   ): Promise<void> {
+    const ack = takeAck(socket);
     const me = await this.mySession(socket);
     if (!me) return;
     const roomId = body?.roomId;
@@ -215,7 +215,8 @@ export class RealtimeGateway
   }
 
   @SubscribeMessage('room:leave')
-  async onRoomLeave(@ConnectedSocket() socket: Socket, @MessageBody() _body: unknown, ack?: Ack): Promise<void> {
+  async onRoomLeave(@ConnectedSocket() socket: Socket, @MessageBody() _body: unknown): Promise<void> {
+    const ack = takeAck(socket);
     const me = await this.mySession(socket);
     if (!me) return;
     const room = await this.rooms.roomForSession(me.id);
@@ -246,8 +247,8 @@ export class RealtimeGateway
   async onChatMessage(
     @ConnectedSocket() socket: Socket,
     @MessageBody() body: { roomId?: string; data?: unknown },
-    ack?: Ack,
   ): Promise<void> {
+    const ack = takeAck(socket);
     const me = await this.mySession(socket);
     if (!me || !ack) return;
     const roomId = body?.roomId;
@@ -322,8 +323,8 @@ export class RealtimeGateway
   async onReport(
     @ConnectedSocket() socket: Socket,
     @MessageBody() body: { roomId?: string; category?: string; note?: string },
-    ack?: Ack,
   ): Promise<void> {
+    const ack = takeAck(socket);
     const me = await this.mySession(socket);
     if (!me) return;
     if (!body?.roomId) return;
@@ -340,8 +341,8 @@ export class RealtimeGateway
   async onBlock(
     @ConnectedSocket() socket: Socket,
     @MessageBody() body: { roomId?: string; reason?: string },
-    ack?: Ack,
   ): Promise<void> {
+    const ack = takeAck(socket);
     const me = await this.mySession(socket);
     if (!me || !body?.roomId) return;
     const room = await this.rooms.getRoom(body.roomId);

@@ -5,6 +5,7 @@ import helmet from 'helmet';
 import { createHash, randomBytes } from 'node:crypto';
 import { AppModule } from './app.module';
 import { RedisService } from './core/redis.service';
+import { AckStashAdapter } from './core/ack-stash.adapter';
 import type { AppRuntimeConfig } from './core/config';
 
 /**
@@ -36,6 +37,8 @@ async function bootstrap(): Promise<void> {
 
   app.use(helmet());
   app.setGlobalPrefix('api', { exclude: ['socket.io'] });
+  // FIX: expose the Socket.IO ack callback to ws handlers (Nest 10 has no @Ack()).
+  app.useWebSocketAdapter(new AckStashAdapter(app));
 
   const origins = cfg.allowedOrigins.length > 0 ? cfg.allowedOrigins : true;
   app.enableCors({

@@ -12,6 +12,18 @@ export interface NearUserView {
   travel?: boolean;
 }
 
+/** decodeGeohash that returns null instead of throwing on bad input. */
+function safeDecode(cellId: string): ReturnType<typeof decodeGeohash> | null {
+  try {
+    return decodeGeohash(cellId);
+  } catch {
+    return null;
+  }
+}
+
+/** Canonical presence-bucket precision (6-char geohash ≈ 1.2km × 0.6km). */
+const PRESENCE_CELL_CHARS = 6;
+
 /**
  * GPS-based + ghost-zone proximity discovery.
  *
@@ -32,9 +44,12 @@ export class DiscoveryService {
   }
 
   async setCellPresence(sessionId: string, cellId: string, travel: boolean, ttlSeconds: number): Promise<void> {
-    await this.redis.sadd(this.bucketKey(cellId), sessionId);
-    await this.redis.expire(this.bucketKey(cellId), ttlSeconds);
-    await this.sessions.setPresence(sessionId, cellId, cellId.slice(0, 5), travel);
+    // Normalize to the same length nearby() uses for bucket lookups so
+    // writers and readers always agree on the bucket key.
+    const normalized = cellId.slice(0, PRESENCE_CELL_CHARS);
+    await this.redis.sadd(this.bucketKey(normalized), sessionId);
+    await this.redis.expire(this.bucketKey(normalized), ttlSeconds);
+    await this.sessions.setPresence(sessionId, normalized, normalized.slice(0, 5), travel);
   }
 
   async clearPresence(sessionId: string): Promise<void> {
@@ -47,7 +62,9 @@ export class DiscoveryService {
 
   /** Sessions in `cellId` or its 8 neighbors, nearest-first, capped at `limit`. */
   async nearby(mySessionId: string, cellId: string, travelModeOnly = false, limit = 30): Promise<NearUserView[]> {
-    const me = decodeGeohash(cellId.slice(0, 6));
+    // Defense in depth: never let a malformed cell crash the endpoint (500).
+    const me = safeDecode(cellId.slice(0, PRESENCE_CELL_CHARS));
+    if (!me) return [];
     const cells = [me.cellId, ...adjacentCells(me.cellId)];
     const out: Array<NearUserView & { d: number }> = [];
     const seen = new Set<string>([mySessionId]);
@@ -60,7 +77,8 @@ export class DiscoveryService {
         const s = await this.sessions.getSession(id);
         if (!s || !s.presenceCell) continue;
         if (travelModeOnly && !s.travel) continue;
-        const theirCell = decodeGeohash(s.presenceCell.slice(0, me.cellId.length));
+        const theirCell = safeDecode(s.presenceCell.slice(0, me.cellId.length));
+        if (!theirCell) continue;
         out.push({
           id: s.id,
           alias: s.alias,

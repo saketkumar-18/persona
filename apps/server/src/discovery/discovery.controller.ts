@@ -26,7 +26,13 @@ import { SessionService } from '../sessions/session.service';
  *    by cell size. Member lists are never exposed — only aggregate counts.
  */
 
-const cellSchema = z.string().regex(/^[0-9a-z]{5,8}$/i, 'cell must be a coarse geohash').transform((s) => s.toLowerCase());
+// Geohash base32 = "0123456789bcdefghjkmnpqrstuvwxyz" — letters i, l, o and
+// every uppercase form are invalid. Validating the full alphabet here prevents
+// decodeGeohash from throwing a raw Error (500) inside discovery endpoints.
+const cellSchema = z
+  .string()
+  .regex(/^[0-9bcdefghjkmnpqrstuvwxyz]{4,12}$/, 'cell must be a valid lowercase geohash cell')
+  .transform((s) => s.toLowerCase());
 
 const nearbySchema = z
   .object({
@@ -43,6 +49,15 @@ const zoneJoinSchema = z
     ttlSeconds: z.number().int().min(60).max(4 * 3600).optional(),
   })
   .strict();
+
+/** Safe geohash center — returns null instead of throwing on malformed cells. */
+function safeCenter(cellId: string): { lat: number; lng: number } | null {
+  try {
+    return decodeGeohash(cellId).center;
+  } catch {
+    return null;
+  }
+}
 
 function sid(req: Request): string {
   const id = (req as Request & { sessionId?: string }).sessionId;
@@ -91,10 +106,12 @@ export class DiscoveryController {
     }
     const { cellId, ttlSeconds } = parsed.data;
     const ttl = ttlSeconds ?? GHOST_ZONE_TTL_SECONDS;
+    const center = safeCenter(cellId);
+    if (!center) return { zone: { cellId: '', center: { lat: 0, lng: 0 }, createdAt: 0, expiresAt: 0 }, activeSessions: 0 };
     await this.discovery.setCellPresence(me, cellId, true, ttl);
     const members = await this.discovery.sameCell(cellId, me);
     return {
-      zone: { cellId, center: decodeGeohash(cellId).center, createdAt: Date.now(), expiresAt: Date.now() + ttl * 1000 },
+      zone: { cellId, center, createdAt: Date.now(), expiresAt: Date.now() + ttl * 1000 },
       activeSessions: members.length,
     };
   }
@@ -111,7 +128,7 @@ export class DiscoveryController {
       zones: [
         {
           cellId,
-          center: decodeGeohash(cellId).center,
+          center: safeCenter(cellId) ?? { lat: 0, lng: 0 },
           createdAt: Date.now(),
           expiresAt: Date.now() + GHOST_ZONE_TTL_SECONDS * 1000,
         },

@@ -38,6 +38,7 @@ export default function ChatRoom({
   const { messages, send, receive } = useEncryptedChat(session, roomId, partner, sendEnvelope);
   const [draft, setDraft] = useState('');
   const [agree, setAgree] = useState(false);
+  const [showSafety, setShowSafety] = useState(false);
   const [reportOpen, setReportOpen] = useState(false);
   const [reportCategory, setReportCategory] = useState('harassment');
   const [note, setNote] = useState('');
@@ -104,12 +105,44 @@ export default function ChatRoom({
           <div>
             <p className="font-semibold leading-tight">{partner.alias}</p>
             {partner.fingerprint && (
-              <p className="text-xs text-[var(--muted)]">safety code: {partner.fingerprint}</p>
+              <button
+                type="button"
+                className="text-left text-xs text-[var(--muted)] underline decoration-dotted underline-offset-2 hover:text-[var(--fg)]"
+                onClick={() => setShowSafety((v) => !v)}
+                aria-expanded={showSafety}
+              >
+                🔐 safety code: {partner.fingerprint} — what&apos;s this?
+              </button>
             )}
           </div>
         </div>
         <span className="chip">🔒 end-to-end encrypted</span>
       </div>
+
+      {/* safety-code explainer (toggled by the header button) */}
+      {showSafety && partner.fingerprint && (
+        <div className="space-y-1.5 border-b border-[var(--border)] bg-[var(--accent-soft)] px-3 py-2.5 text-xs text-[var(--muted)]">
+          <p>
+            <strong className="text-[var(--fg)]">How to verify:</strong> contact this person through
+            a channel you both trust (voice call, video, in person) and compare codes.
+          </p>
+          <ul className="list-inside list-disc space-y-0.5">
+            <li>
+              Your code: <code className="font-mono text-[var(--fg)]">{session.fingerprint}</code>
+            </li>
+            <li>
+              Their code: <code className="font-mono text-[var(--fg)]">{partner.fingerprint}</code>
+            </li>
+          </ul>
+          <p>
+            Codes match → the encryption is genuine and nobody is intercepting. Mismatch → leave
+            immediately and block.
+          </p>
+          <button type="button" className="btn-ghost px-2 py-1 text-xs" onClick={() => setShowSafety(false)}>
+            Got it — hide
+          </button>
+        </div>
+      )}
 
       {/* safety notice */}
       <div className="border-b border-[var(--border)] bg-[var(--accent-soft)] px-3 py-2 text-xs text-[var(--muted)]">
