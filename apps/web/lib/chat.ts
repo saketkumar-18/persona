@@ -6,7 +6,7 @@ import {
   encryptChatMessage,
   decryptChatMessage,
   type PartnerInfo,
-} from '@ghostlink/shared';
+} from '@persona/shared';
 import type { StoredGhostSession } from './storage';
 
 export interface ChatMessage {

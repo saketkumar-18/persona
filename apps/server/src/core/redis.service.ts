@@ -3,7 +3,7 @@ import Redis from 'ioredis';
 
 /**
  * Redis-backed ephemeral store with an in-memory fallback.
- * All GhostLink state is temporary by design: sessions, rooms, queues and
+ * All Persona state is temporary by design: sessions, rooms, queues and
  * metrics live only here and expire automatically. Nothing is persisted.
  */
 

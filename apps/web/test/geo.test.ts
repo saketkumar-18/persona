@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { cellFromLatLng } from '../lib/geo';
-import { decodeGeohash } from '@ghostlink/shared';
+import { decodeGeohash } from '@persona/shared';
 
 describe('geo helpers (client-side coarsening)', () => {
   it('coarsens raw GPS into a geohash cell', () => {

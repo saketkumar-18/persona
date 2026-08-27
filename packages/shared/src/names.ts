@@ -1,5 +1,5 @@
 /**
- * Anonymous identity helpers. GhostLink never stores real identities; every
+ * Anonymous identity helpers. Persona never stores real identities; every
  * session gets a random "ghost alias" (adjective + noun) plus an emoji.
  */
 

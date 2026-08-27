@@ -6,52 +6,52 @@ export class MetricsService {
   readonly registry = new Registry();
 
   private readonly sessionsCreated = new Counter({
-    name: 'ghostlink_sessions_created_total',
+    name: 'persona_sessions_created_total',
     help: 'Anonymous sessions created since boot',
     registers: [this.registry],
   });
 
   private readonly matchesMade = new Counter({
-    name: 'ghostlink_matches_total',
+    name: 'persona_matches_total',
     help: 'Successful random/nearby pairings',
     labelNames: ['source'],
     registers: [this.registry],
   });
 
   private readonly messagesRelayed = new Counter({
-    name: 'ghostlink_messages_relayed_total',
+    name: 'persona_messages_relayed_total',
     help: 'Chat messages relayed (ciphertext only)',
     registers: [this.registry],
   });
 
   private readonly reportsReceived = new Counter({
-    name: 'ghostlink_reports_total',
+    name: 'persona_reports_total',
     help: 'Abuse reports received',
     labelNames: ['category'],
     registers: [this.registry],
   });
 
   private readonly messageSize = new Histogram({
-    name: 'ghostlink_message_bytes',
+    name: 'persona_message_bytes',
     help: 'Chat message envelope size in bytes',
     buckets: [256, 1024, 4096, 8192, 16384],
     registers: [this.registry],
   });
 
   private readonly activeSessions = new Gauge({
-    name: 'ghostlink_active_sessions',
+    name: 'persona_active_sessions',
     help: 'Currently active anonymous sessions',
     registers: [this.registry],
   });
 
   private readonly activeRooms = new Gauge({
-    name: 'ghostlink_active_rooms',
+    name: 'persona_active_rooms',
     help: 'Currently active chat rooms',
     registers: [this.registry],
   });
 
   private readonly queueSize = new Gauge({
-    name: 'ghostlink_match_queue_size',
+    name: 'persona_match_queue_size',
     help: 'Sessions waiting in the matching queue',
     labelNames: ['kind'],
     registers: [this.registry],

@@ -1,5 +1,5 @@
 /**
- * GhostLink realtime protocol (Socket.IO default namespace).
+ * Persona realtime protocol (Socket.IO default namespace).
  *
  * Plane split:
  *  - Control plane (REST): session CRUD, nearby discovery, QR pair-exchange,
@@ -9,7 +9,7 @@
  *
  * Chat payload = opaque base64url JSON envelope produced client-side with a
  * per-room AES-256-GCM key derived from an ephemeral ECDH key exchange
- * (see crypto.ts in @ghostlink/shared). The server relays ciphertext only
+ * (see crypto.ts in @persona/shared). The server relays ciphertext only
  * and never derives or stores room keys.
  */
 

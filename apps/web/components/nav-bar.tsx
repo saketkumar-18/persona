@@ -17,7 +17,7 @@ export default function NavBar({ connected }: { connected?: boolean }) {
       <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
         <Link href="/" className="flex items-center gap-2 font-bold tracking-tight">
           <span aria-hidden className="text-xl">👻</span>
-          GhostLink
+          Persona
         </Link>
         <nav className="flex items-center gap-2 text-sm">
           {connected !== undefined && (

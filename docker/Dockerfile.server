@@ -1,5 +1,5 @@
 # ---------------------------------------------------------------------------
-# GhostLink API server (NestJS)
+# Persona API server (NestJS)
 # ---------------------------------------------------------------------------
 FROM node:22-alpine AS base
 WORKDIR /app
@@ -16,13 +16,13 @@ COPY packages/shared ./packages/shared
 COPY apps/server ./apps/server
 
 # ---- build shared first (server depends on its dist) ----
-RUN npm run build -w @ghostlink/shared && npm run build -w @ghostlink/server
+RUN npm run build -w @persona/shared && npm run build -w @persona/server
 
 FROM node:22-alpine AS runner
 ENV NODE_ENV=production
 WORKDIR /app
 
-RUN addgroup -S ghostlink && adduser -S ghostlink -G ghostlink
+RUN addgroup -S persona && adduser -S persona -G persona
 
 COPY --from=base /app/package.json ./package.json
 COPY --from=base /app/node_modules ./node_modules
@@ -30,7 +30,7 @@ COPY --from=base /app/packages/shared ./packages/shared
 COPY --from=base /app/apps/server/package.json ./apps/server/
 COPY --from=base /app/apps/server/dist ./apps/server/dist
 
-USER ghostlink
+USER persona
 EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
   CMD wget -q -O /dev/null "http://localhost:${PORT:-3000}/api/health" || exit 1

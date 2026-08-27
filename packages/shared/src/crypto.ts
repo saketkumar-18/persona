@@ -1,12 +1,12 @@
 /**
- * Client-side end-to-end chat encryption for GhostLink.
+ * Client-side end-to-end chat encryption for Persona.
  *
  * Model:
  *  1. Each session generates an ephemeral ECDH P-256 key pair locally at
  *     session creation. The PUBLIC key (JWK, public fields only) is uploaded
  *     once to the server (REST control plane) and delivered to partners.
  *  2. When two sessions are paired, each derives a per-room AES-256-GCM key:
- *     HKDF-SHA256(ECDH(myPriv, theirPub), salt=roomId, info="ghostlink/chat/v1").
+ *     HKDF-SHA256(ECDH(myPriv, theirPub), salt=roomId, info="persona/chat/v1").
  *  3. Messages are AES-256-GCM encrypted client-side into opaque envelopes
  *     (`encodeEnvelope`) and relayed verbatim by the server.
  *
@@ -117,7 +117,7 @@ export async function deriveRoomKey(
       name: 'HKDF',
       hash: 'SHA-256',
       salt: new TextEncoder().encode(`room:${roomId}`),
-      info: new TextEncoder().encode('ghostlink/chat/v1'),
+      info: new TextEncoder().encode('persona/chat/v1'),
     },
     hkdfKey,
     { name: 'AES-GCM', length: 256 },

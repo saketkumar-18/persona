@@ -1,6 +1,6 @@
 import NavBar from '../../components/nav-bar';
 
-export const metadata = { title: 'Privacy — GhostLink' };
+export const metadata = { title: 'Privacy — Persona' };
 
 const SECTIONS: Array<{ title: string; points: string[] }> = [
   {
@@ -71,7 +71,7 @@ export default function PrivacyPage() {
           <section className="card border-amber-300/50 bg-amber-50 p-5 dark:border-amber-700/50 dark:bg-amber-950/30">
             <h2 className="font-bold">⚠️ Anonymity is best-effort</h2>
             <p className="mt-2 text-sm text-[var(--muted)]">
-              GhostLink minimizes data, but anonymity is never absolute: your ISP or network admin
+              Persona minimizes data, but anonymity is never absolute: your ISP or network admin
               can see that you use the service, your device can be fingerprinted by the browser,
               and anything you type in chat is shared with your partner. Never share personal
               details — and report anyone who asks for money, identities, or intimate content.

@@ -31,7 +31,7 @@ export default function QrScanner({ session, onPaired }: QrScannerProps) {
       const match = /(?:^|code=)(ql_[a-z2-9]{6})/.exec(clean);
       const pairingCode = match?.[1];
       if (!pairingCode) {
-        pushToast('That does not look like a GhostLink pairing code.');
+        pushToast('That does not look like a Persona pairing code.');
         return;
       }
       try {
@@ -103,7 +103,7 @@ export default function QrScanner({ session, onPaired }: QrScannerProps) {
 
   return (
     <div className="card mx-auto w-full max-w-sm p-6 animate-fade-up">
-      <h3 className="text-center font-bold">Scan a GhostLink QR</h3>
+      <h3 className="text-center font-bold">Scan a Persona QR</h3>
       <div className="mt-4 overflow-hidden rounded-xl border border-[var(--border)]">
         <video ref={videoRef} className={scanning ? 'w-full' : 'hidden'} playsInline muted />
         {!scanning && (

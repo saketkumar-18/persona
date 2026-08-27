@@ -11,7 +11,7 @@ import {
   GHOST_ZONE_TTL_SECONDS,
   ERROR_CODES,
   MAX_NEARBY_RESULTS,
-} from '@ghostlink/shared';
+} from '@persona/shared';
 import { TokenAuthGuard } from '../core/token-auth.guard';
 import { DiscoveryService } from './discovery.service';
 import { SessionService } from '../sessions/session.service';

@@ -12,7 +12,7 @@ import {
   OkResponse,
   CreateInviteResponse,
   JoinInviteResponse,
-} from '@ghostlink/shared';
+} from '@persona/shared';
 import { API_BASE } from './env';
 
 async function http<T>(path: string, init: RequestInit = {}, token?: string): Promise<T> {

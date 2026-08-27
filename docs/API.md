@@ -1,4 +1,4 @@
-# GhostLink API Reference
+# Persona API Reference
 
 Base URL: `http://localhost:3000/api` (dev). Interactive Swagger UI: `http://localhost:3000/docs`.
 

@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import { decodeGeohash } from '@ghostlink/shared';
+import { decodeGeohash } from '@persona/shared';
 import { api } from '../lib/api';
 import { cellFromLatLng, reverseGeocodeCellCenter } from '../lib/geo';
 import type { StoredGhostSession } from '../lib/storage';

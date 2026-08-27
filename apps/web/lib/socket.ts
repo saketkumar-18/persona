@@ -8,7 +8,7 @@ import type {
   MatchStartAck,
   PartnerInfo,
   RoomLeaveReason,
-} from '@ghostlink/shared';
+} from '@persona/shared';
 import { WS_URL } from './env';
 
 export type TypedSocket = Socket<ServerEvents, ClientEvents>;

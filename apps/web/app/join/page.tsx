@@ -39,7 +39,7 @@ function JoinPageInner() {
       if (res.ok && res.roomId && res.partner) {
         setStatus('done');
         sessionStorage.setItem(
-          'ghostlink:joined-room',
+          'persona:joined-room',
           JSON.stringify({ roomId: res.roomId, partner: res.partner }),
         );
         router.push('/ghost');

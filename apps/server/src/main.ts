@@ -48,7 +48,7 @@ async function bootstrap(): Promise<void> {
   });
 
   const swaggerConfig = new DocumentBuilder()
-    .setTitle('GhostLink API')
+    .setTitle('Persona API')
     .setDescription(
       'Privacy-first anonymous discovery & real-time chat. There are NO accounts — ' +
         'a session IS a temporary JWT. All state lives in Redis and self-expires. ' +
@@ -66,7 +66,7 @@ async function bootstrap(): Promise<void> {
   await app.listen(cfg.serverPort);
 
   const url = await app.getUrl();
-  Logger.log(`GhostLink API listening on ${url} (redis=${redis.isRedis ? 'up' : 'memory fallback'})`);
+  Logger.log(`Persona API listening on ${url} (redis=${redis.isRedis ? 'up' : 'memory fallback'})`);
   Logger.log(`API docs: ${url}/docs (OpenAPI JSON: ${url}/docs-json)`);
 }
 

@@ -7,7 +7,7 @@ import { AppModule } from '../../src/app.module';
 
 jest.setTimeout(30_000);
 
-describe('GhostLink REST API (e2e)', () => {
+describe('Persona REST API (e2e)', () => {
   let app: INestApplication;
 
   beforeAll(async () => {
@@ -223,7 +223,7 @@ describe('GhostLink REST API (e2e)', () => {
   it('metrics endpoint is gated by token when configured', async () => {
     // METRICS_TOKEN unset in tests → open metrics (dev default)
     const res = await request(app.getHttpServer()).get('/api/metrics').expect(200);
-    expect(res.text).toContain('ghostlink_sessions_created_total');
+    expect(res.text).toContain('persona_sessions_created_total');
   });
 
   it('direct connect pairs two discovered sessions', async () => {

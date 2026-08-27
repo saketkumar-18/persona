@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import type { PartnerInfo } from '@ghostlink/shared';
+import type { PartnerInfo } from '@persona/shared';
 import { useEncryptedChat } from '../lib/chat';
 import { api } from '../lib/api';
 import type { StoredGhostSession } from '../lib/storage';

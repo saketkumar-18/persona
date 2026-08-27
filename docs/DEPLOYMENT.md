@@ -1,4 +1,4 @@
-# GhostLink Deployment Guide
+# Persona Deployment Guide
 
 ## Local development
 ```bash
@@ -19,7 +19,7 @@ Manage with `npm run docker:down` / `npm run docker:logs`.
 
 | Variable | Notes |
 | --- | --- |
-| `SESSION_JWT_SECRET` | ≥ 32 chars, unique per deployment. Random-generated per boot if unset (sessions die on restart — acceptable for GhostLink, configurable if you want restart-surviving sessions). |
+| `SESSION_JWT_SECRET` | ≥ 32 chars, unique per deployment. Random-generated per boot if unset (sessions die on restart — acceptable for Persona, configurable if you want restart-surviving sessions). |
 | `PARTNER_CONTROL_SECRET` | Random ≥ 32 chars |
 | `REDIS_URL` | `redis://:password@host:6379` |
 | `ALLOWED_ORIGINS` | Comma list of web origins for CORS, e.g. `https://app.example.com` |
@@ -35,7 +35,7 @@ node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"
 Never commit real secrets. `.env` is gitignored; `.env.example` ships safe placeholders only.
 
 ## Reverse proxy / TLS
-Terminate TLS at your edge (nginx/caddy/ALB). GhostLink requires:
+Terminate TLS at your edge (nginx/caddy/ALB). Persona requires:
 - WebSocket upgrade support for `/socket.io` (`Upgrade: websocket`).
 - No long body buffering for WS frames.
 Example nginx location:
@@ -62,7 +62,7 @@ localhost origin).
 - `GET /api/health` for liveness/readiness probes.
 - `GET /api/metrics` (Prometheus) — scrape with a token header if `METRICS_TOKEN` set.
 - Key alerts: 5xx rate on `/api/*`, Redis connectivity (`redis` field in `/api/health`),
-  queue depth from `ghostlink_match_queue_size{kind=…}`.
+  queue depth from `persona_match_queue_size{kind=…}`.
 
 ## CI/CD
 `.github/workflows/ci.yml` runs, on every push/PR:

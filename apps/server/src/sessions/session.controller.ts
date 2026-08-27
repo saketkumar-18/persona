@@ -20,7 +20,7 @@ import {
   SessionResponse,
   OkResponse,
   GHOST_EMOJIS,
-} from '@ghostlink/shared';
+} from '@persona/shared';
 import { SessionService, StoredSession } from './session.service';
 import { JwtService } from '../core/jwt.service';
 import { GatewayRegistry } from '../core/gateway-registry';

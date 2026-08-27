@@ -1,4 +1,4 @@
-name: ghostlink
+name: persona
 
 services:
   redis:
@@ -28,7 +28,7 @@ services:
       SERVER_PORT: 3000
       REDIS_URL: redis://:${REDIS_PASSWORD:-}@redis:6379
       ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:3001}
-      GHOSTLINK_PUBLIC_URL: ${GHOSTLINK_PUBLIC_URL:-http://localhost:3001}
+      PERSONA_PUBLIC_URL: ${PERSONA_PUBLIC_URL:-http://localhost:3001}
       SESSION_JWT_SECRET: ${SESSION_JWT_SECRET:-}
       SESSION_JWT_TTL_SECONDS: ${SESSION_JWT_TTL_SECONDS:-14400}
       PARTNER_CONTROL_SECRET: ${PARTNER_CONTROL_SECRET:-}

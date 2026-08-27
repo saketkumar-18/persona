@@ -1,6 +1,6 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { createHash } from 'node:crypto';
-import { sanitizeReportNote } from '@ghostlink/shared';
+import { sanitizeReportNote } from '@persona/shared';
 import { RedisService } from '../core/redis.service';
 import { SessionService } from '../sessions/session.service';
 import { AppRuntimeConfig } from '../core/config';

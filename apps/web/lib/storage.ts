@@ -1,7 +1,7 @@
 /**
  * Client session store — sessionStorage ONLY.
  * Deliberately NOT localStorage: closing the tab destroys the identity,
- * which is the whole point of GhostLink.
+ * which is the whole point of Persona.
  */
 
 export interface StoredGhostSession {
@@ -18,7 +18,7 @@ export interface StoredGhostSession {
   fingerprint: string;
 }
 
-const KEY = 'ghostlink:session:v1';
+const KEY = 'persona:session:v1';
 
 export function loadStoredSession(): StoredGhostSession | null {
   if (typeof sessionStorage === 'undefined') return null;

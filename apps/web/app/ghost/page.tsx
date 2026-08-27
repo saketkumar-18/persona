@@ -2,7 +2,7 @@ import NavBar from '../../components/nav-bar';
 import GhostDashboard from '../../components/ghost-dashboard';
 import ToastHost from '../../components/toast';
 
-export const metadata = { title: 'Ghost — GhostLink' };
+export const metadata = { title: 'Ghost — Persona' };
 
 export default function GhostPage() {
   return (

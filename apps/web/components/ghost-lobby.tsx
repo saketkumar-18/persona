@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { GHOST_EMOJIS } from '@ghostlink/shared';
+import { GHOST_EMOJIS } from '@persona/shared';
 import { useSessionManager } from '../lib/session';
 import { pushToast } from './toast';
 

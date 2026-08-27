@@ -1,6 +1,6 @@
 {
-  "name": "GhostLink — Anonymous, ephemeral connections",
-  "short_name": "GhostLink",
+  "name": "Persona — Anonymous, ephemeral connections",
+  "short_name": "Persona",
   "description": "Meet people nearby or anywhere without accounts. Temporary sessions, encrypted chats, no history.",
   "id": "/",
   "start_url": "/",

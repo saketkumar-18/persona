@@ -12,7 +12,7 @@ import {
   decodeGeohash,
   jitterWithinCell,
   coarsenToCell,
-} from '@ghostlink/shared';
+} from '@persona/shared';
 
 export type GeoConsent = 'unset' | 'granted' | 'denied' | 'unavailable';
 

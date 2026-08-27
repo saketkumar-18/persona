@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import type { NearUser, PartnerInfo } from '@ghostlink/shared';
+import type { NearUser, PartnerInfo } from '@persona/shared';
 import { useSessionManager } from '../lib/session';
 import { useGhostSocket } from '../lib/socket';
 import { api } from '../lib/api';
@@ -27,7 +27,7 @@ const TABS: Array<{ id: Tab; label: string }> = [
 ];
 
 /**
- * GhostLink main experience. One session per tab; everything is ephemeral.
+ * Persona main experience. One session per tab; everything is ephemeral.
  * Tabs: matching (global/zone), nearby GPS discovery, QR host, QR scan,
  * ghost zones (event/travel).
  */
@@ -49,7 +49,7 @@ export default function GhostDashboard() {
 
   // Restore room after a QR deep-link join (/join → /ghost with saved result).
   useEffect(() => {
-    const raw = sessionStorage.getItem('ghostlink:joined-room');
+    const raw = sessionStorage.getItem('persona:joined-room');
     if (!raw) return;
     try {
       const { roomId, partner } = JSON.parse(raw) as {
@@ -58,7 +58,7 @@ export default function GhostDashboard() {
       };
       if (roomId && partner?.id) onPaired(roomId, partner);
     } finally {
-      sessionStorage.removeItem('ghostlink:joined-room');
+      sessionStorage.removeItem('persona:joined-room');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

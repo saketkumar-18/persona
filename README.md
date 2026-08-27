@@ -1,28 +1,28 @@
-# 👻 GhostLink
+# 👻 Persona
 
 **Privacy-first social discovery and real-time communication platform — no accounts, ever.**
 
-GhostLink lets people connect with nearby users or random matches anywhere in the world
+Persona lets people connect with nearby users or random matches anywhere in the world
 without registration, profiles, or persistent data. Sessions are ephemeral tokens; chats are
 end-to-end encrypted and self-destruct; location is coarsened on-device before it ever leaves
 the browser.
 
-![CI](https://github.com/saketkumar-18/GhostLink/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/saketkumar-18/Persona/actions/workflows/ci.yml/badge.svg)
 
 ## Deploy in one click (free)
 
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/saketkumar-18/GhostLink)
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/saketkumar-18/Persona)
 
 Backend + Redis land automatically. See [docs/DEPLOY_FREE.md](docs/DEPLOY_FREE.md) for the Vercel frontend steps.
 
 ## Live demo
 
-**https://ghostlink-web-eight.vercel.app** — no signup, no login. One tap creates an
+**https://persona.vercel.app** — no signup, no login. One tap creates an
 ephemeral ghost session; scan the QR on any phone to jump straight into the lobby.
 
-![GhostLink QR — scan to chat](docs/assets/ghostlink-qr.png)
+![Persona QR — scan to chat](docs/assets/persona-qr.png)
 
-## Why GhostLink
+## Why Persona
 
 | Feature | How it stays private |
 | --- | --- |
@@ -76,7 +76,7 @@ npm run docker:up      # builds + starts redis, server, web
 ## Monorepo layout
 
 ```
-GhostLink/
+Persona/
 ├── apps/
 │   ├── server/       # NestJS API + Socket.IO realtime gateway
 │   └── web/          # Next.js PWA

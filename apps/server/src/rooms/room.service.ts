@@ -1,5 +1,5 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
-import { generateRoomId } from '@ghostlink/shared';
+import { generateRoomId } from '@persona/shared';
 import { RedisService } from '../core/redis.service';
 import { AppRuntimeConfig } from '../core/config';
 

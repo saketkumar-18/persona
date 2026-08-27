@@ -1,6 +1,6 @@
-# GhostLink — $0 Production Deployment
+# Persona — $0 Production Deployment
 
-This stack puts GhostLink online for free, no credit card, on two accounts you create via GitHub/GitHub OAuth:
+This stack puts Persona online for free, no credit card, on two accounts you create via GitHub/GitHub OAuth:
 
 | Piece | Provider | Why it's free |
 | --- | --- | --- |
@@ -23,11 +23,11 @@ The repo root has a `render.yaml` Blueprint that provisions **both services**:
 
 1. Open this URL in a browser while logged into Render with GitHub:
 
-   `https://render.com/deploy?repo=https://github.com/saketkumar-18/GhostLink`
+   `https://render.com/deploy?repo=https://github.com/saketkumar-18/Persona`
 
 2. Render reads the Blueprint and creates:
-   - `ghostlink-api` — Docker web service, free plan, build from repo root
-   - `ghostlink-redis` — free Redis, auto-wired into `REDIS_URL`
+   - `persona-api` — Docker web service, free plan, build from repo root
+   - `persona-redis` — free Redis, auto-wired into `REDIS_URL`
    - Random `SESSION_JWT_SECRET` / `PARTNER_CONTROL_SECRET`
 
 3. **Wait for the first deploy** (Render logs show it building the image; ~5-10 min).
@@ -36,7 +36,7 @@ The repo root has a `render.yaml` Blueprint that provisions **both services**:
    → `{"status":"ok","redis":"up",...}`.
 
 5. **Set the CORS allowlist for your frontend** (do this AFTER step 2 below or on a placeholder):
-   Render → `ghostlink-api` → **Environment** → add:
+   Render → `persona-api` → **Environment** → add:
 
    ```
    ALLOWED_ORIGINS=https://<your-vercel-app>.vercel.app
@@ -65,7 +65,7 @@ The repo root has a `render.yaml` Blueprint that provisions **both services**:
    (`socket.io-client` connects to `/socket.io` under that origin; keep http(s).)
 
 4. Deploy. Vercel auto-detects Next.js and the monorepo from the root `package-lock.json`.
-   Your app URL looks like `https://ghostlink-<you>.vercel.app`.
+   Your app URL looks like `https://persona-<you>.vercel.app`.
 
 5. Update `ALLOWED_ORIGINS` on Render to this exact URL (Environment tab) and reconcile the service.
 

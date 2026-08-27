@@ -6,7 +6,7 @@ import ToastHost, { pushToast } from '../components/toast';
 describe('NavBar', () => {
   it('renders brand + privacy link + theme toggle', () => {
     render(<NavBar />);
-    expect(screen.getByText('GhostLink')).toBeInTheDocument();
+    expect(screen.getByText('Persona')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /privacy/i })).toHaveAttribute('href', '/privacy');
     expect(
       screen.getByRole('button', { name: /toggle color theme/i }),

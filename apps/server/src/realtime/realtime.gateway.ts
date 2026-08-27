@@ -14,7 +14,7 @@ import {
   type ErrorCode,
   type ErrorFrame,
   MAX_CHAT_DATA_LENGTH,
-} from '@ghostlink/shared';
+} from '@persona/shared';
 import { JwtService } from '../core/jwt.service';
 import { GatewayRegistry, RealtimeBridge } from '../core/gateway-registry';
 import { SessionService } from '../sessions/session.service';
@@ -31,7 +31,7 @@ interface SocketData {
 }
 
 /**
- * GhostLink realtime plane (Socket.IO, path /socket.io, default namespace).
+ * Persona realtime plane (Socket.IO, path /socket.io, default namespace).
  *
  * Auth: JWT in `socket.handshake.auth.token` — verified before any event.
  * Rooms: two-person ephemeral channels; chat messages are relayed as opaque

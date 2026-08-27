@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { generateQrCode } from '@ghostlink/shared';
+import { generateQrCode } from '@persona/shared';
 import { RedisService } from '../core/redis.service';
 import { AppRuntimeConfig } from '../core/config';
 import { SessionService } from '../sessions/session.service';

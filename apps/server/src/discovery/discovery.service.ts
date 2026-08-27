@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { decodeGeohash, adjacentCells, haversineMeters, bearingDeg } from '@ghostlink/shared';
+import { decodeGeohash, adjacentCells, haversineMeters, bearingDeg } from '@persona/shared';
 import { RedisService } from '../core/redis.service';
 import { SessionService } from '../sessions/session.service';
 

@@ -47,7 +47,7 @@ export default function MatchPanel({
   if (!connected) {
     return (
       <div className="card p-6 text-center animate-fade-up">
-        <p className="text-sm text-[var(--muted)]">Connecting to GhostLink…</p>
+        <p className="text-sm text-[var(--muted)]">Connecting to Persona…</p>
       </div>
     );
   }

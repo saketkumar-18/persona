@@ -2,7 +2,7 @@ import { Body, Controller, HttpCode, Post, Req, UseGuards } from '@nestjs/common
 import { ApiHeader, ApiOperation, ApiTags } from '@nestjs/swagger';
 import type { Request } from 'express';
 import { z } from 'zod';
-import { ERROR_CODES } from '@ghostlink/shared';
+import { ERROR_CODES } from '@persona/shared';
 import { TokenAuthGuard } from '../core/token-auth.guard';
 import { InviteService } from './invite.service';
 import { SessionService } from '../sessions/session.service';

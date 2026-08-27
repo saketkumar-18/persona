@@ -1,6 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import type { Request } from 'express';
-import { ERROR_CODES } from '@ghostlink/shared';
+import { ERROR_CODES } from '@persona/shared';
 import { JwtService } from './jwt.service';
 
 /**

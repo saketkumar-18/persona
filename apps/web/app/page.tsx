@@ -21,7 +21,7 @@ export default function LandingPage() {
                 not profiles.
               </h1>
               <p className="max-w-md text-[var(--muted)]">
-                GhostLink connects people nearby or anywhere with anonymous, temporary sessions.
+                Persona connects people nearby or anywhere with anonymous, temporary sessions.
                 End-to-end encrypted chats that self-destruct. No registration, no history, no
                 personal data collection.
               </p>
@@ -67,7 +67,7 @@ export default function LandingPage() {
 
         <footer className="mx-auto flex max-w-5xl flex-col items-center gap-2 px-4 py-8 text-center text-xs text-[var(--muted)]">
           <p>
-            GhostLink is anonymous, not invisible — protect yourself by never sharing personal
+            Persona is anonymous, not invisible — protect yourself by never sharing personal
             details. <Link href="/privacy" className="underline">Privacy & limits</Link>
           </p>
           <p>Open source under MIT· v1.0.0</p>

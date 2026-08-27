@@ -78,13 +78,13 @@ describe('chat envelopes (AES-256-GCM)', () => {
     const b = await generateSessionKeyPair();
     const keyA = await deriveRoomKey(a.privateKey, b.publicKeyJwk, 'rm_x');
 
-    const envelope = await encryptChatMessage(keyA, 'GhostLink 🌫️ privacy test');
+    const envelope = await encryptChatMessage(keyA, 'Persona 🌫️ privacy test');
     const parsed = JSON.parse(envelope) as { v: number; iv: string; ct: string };
     expect(parsed.v).toBe(1);
     // envelope must not contain plaintext
     expect(envelope).not.toContain('privacy');
 
-    expect(await decryptChatMessage(keyA, envelope)).toBe('GhostLink 🌫️ privacy test');
+    expect(await decryptChatMessage(keyA, envelope)).toBe('Persona 🌫️ privacy test');
   });
 
   it('returns null for tampered ciphertext', async () => {

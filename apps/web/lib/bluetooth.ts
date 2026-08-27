@@ -1,6 +1,6 @@
 /**
  * Bluetooth-based nearby discovery — OPTIONAL and only where the browser
- * supports Web Bluetooth. Used as a presence signal ("someone GhostLink-ish is
+ * supports Web Bluetooth. Used as a presence signal ("someone Persona-ish is
  * within radio range") and never for data transfer.
  *
  * Graceful fallback: every entry point returns `supported=false` on browsers
@@ -11,7 +11,7 @@
 
 import { useCallback, useRef, useState } from 'react';
 
-export const GHOSTLINK_SERVICE_UUID = 0xfe99; // unassigned 16-bit gap used as app marker
+export const PERSONA_SERVICE_UUID = 0xfe99; // unassigned 16-bit gap used as app marker
 
 export interface BluetoothSupport {
   supported: boolean;
@@ -97,7 +97,7 @@ export function useBluetoothBeacon() {
     try {
       // All we ask for is a device id — no GATT read/write, no services.
       const device: { id: string } = await nav.bluetooth.requestDevice({
-        filters: [{ services: [GHOSTLINK_SERVICE_UUID] }],
+        filters: [{ services: [PERSONA_SERVICE_UUID] }],
         optionalServices: [],
       });
       if (device.id) {

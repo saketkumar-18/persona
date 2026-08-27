@@ -7,7 +7,7 @@ interface BeforeInstallPromptEvent extends Event {
   userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
 }
 
-const DISMISS_KEY = 'ghostlink:install-hint-dismissed';
+const DISMISS_KEY = 'persona:install-hint-dismissed';
 
 /**
  * Installable-PWA hint.
@@ -68,7 +68,7 @@ export default function PwaInstallHint() {
     <div className="card fixed bottom-4 left-1/2 z-50 flex -translate-x-1/2 items-center gap-3 px-4 py-3 animate-fade-up">
       <span aria-hidden>📲</span>
       <p className="text-sm">
-        Install GhostLink for quick access — no account, nothing tracked.
+        Install Persona for quick access — no account, nothing tracked.
       </p>
       <button type="button" className="btn-primary px-3 py-1.5 text-xs" onClick={() => void install()}>
         Install

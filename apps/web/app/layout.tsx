@@ -4,15 +4,15 @@ import { ThemeProvider } from '../components/theme-provider';
 import ServiceWorkerRegister from '../components/service-worker-register';
 
 export const metadata: Metadata = {
-  title: 'GhostLink — Anonymous, ephemeral connections',
+  title: 'Persona — Anonymous, ephemeral connections',
   description:
     'Meet people nearby or anywhere without accounts. Temporary sessions, encrypted chats, no history.',
-  applicationName: 'GhostLink',
+  applicationName: 'Persona',
   manifest: '/manifest.webmanifest',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
-    title: 'GhostLink',
+    title: 'Persona',
   },
   icons: {
     icon: '/icons/icon-192.png',

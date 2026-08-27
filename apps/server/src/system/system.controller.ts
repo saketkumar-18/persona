@@ -1,6 +1,6 @@
 import { Controller, Get, Header, Headers, HttpCode, Inject, UnauthorizedException } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { HealthResponse, StatusSnapshot } from '@ghostlink/shared';
+import { HealthResponse, StatusSnapshot } from '@persona/shared';
 import { RedisService } from '../core/redis.service';
 import { SessionService } from '../sessions/session.service';
 import { RoomService } from '../rooms/room.service';

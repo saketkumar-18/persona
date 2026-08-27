@@ -32,11 +32,11 @@ describe('session storage (sessionStorage only)', () => {
   it('rejects expired sessions and clears them', () => {
     storeSession(makeSession({ expiresAt: Date.now() - 1000 }));
     expect(loadStoredSession()).toBeNull();
-    expect(sessionStorage.getItem('ghostlink:session:v1')).toBeNull();
+    expect(sessionStorage.getItem('persona:session:v1')).toBeNull();
   });
 
   it('clears corrupt data instead of crashing', () => {
-    sessionStorage.setItem('ghostlink:session:v1', '{not json');
+    sessionStorage.setItem('persona:session:v1', '{not json');
     expect(loadStoredSession()).toBeNull();
   });
 

@@ -34,11 +34,11 @@ jobs:
       - name: Build shared
         run: npm run build:shared
       - name: Lint
-        run: npm run lint -w @ghostlink/server
+        run: npm run lint -w @persona/server
       - name: Typecheck
-        run: npm run typecheck -w @ghostlink/server
+        run: npm run typecheck -w @persona/server
       - name: Build server
-        run: npm run build -w @ghostlink/server
+        run: npm run build -w @persona/server
       - name: Unit + e2e tests
         run: npm run test:server
         env:
@@ -60,13 +60,13 @@ jobs:
       - name: Build shared
         run: npm run build:shared
       - name: Lint
-        run: npm run lint -w @ghostlink/web
+        run: npm run lint -w @persona/web
       - name: Typecheck
-        run: npm run typecheck -w @ghostlink/web
+        run: npm run typecheck -w @persona/web
       - name: Unit tests
         run: npm run test:web
       - name: Production build
-        run: npm run build -w @ghostlink/web
+        run: npm run build -w @persona/web
 
   docker:
     name: Docker image builds

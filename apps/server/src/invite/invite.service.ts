@@ -4,7 +4,7 @@ import { AppRuntimeConfig } from '../core/config';
 import { SessionService } from '../sessions/session.service';
 import { RoomService, StoredRoom } from '../rooms/room.service';
 import { MetricsService } from '../core/metrics.service';
-import { generateInviteSlug } from '@ghostlink/shared';
+import { generateInviteSlug } from '@persona/shared';
 
 /**
  * Invite links / named rooms.
@@ -58,7 +58,7 @@ export class InviteService {
 
     // At this point, slug is always assigned (both branches return early if not)
     const expiresAt = Date.now() + this.config.defaultRoomTtlSeconds * 1000;
-    const baseUrl = process.env.INVITE_BASE_URL || 'https://ghostlink-web-eight.vercel.app';
+    const baseUrl = process.env.INVITE_BASE_URL || 'https://persona-web-eight.vercel.app';
     // Query-param form so the static-export frontend can handle any slug
     // without pre-rendering a route per invite.
     return { slug: slug!, url: `${baseUrl}/join?slug=${encodeURIComponent(slug!)}`, expiresAt };

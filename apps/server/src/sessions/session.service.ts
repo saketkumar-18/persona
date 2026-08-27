@@ -5,7 +5,7 @@ import {
   randomEmoji,
   GHOST_EMOJIS,
   sanitizeAlias,
-} from '@ghostlink/shared';
+} from '@persona/shared';
 import { RedisService } from '../core/redis.service';
 import { MetricsService } from '../core/metrics.service';
 import { AppRuntimeConfig } from '../core/config';

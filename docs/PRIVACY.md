@@ -1,4 +1,4 @@
-# GhostLink Privacy & Threat Model
+# Persona Privacy & Threat Model
 
 Privacy-by-design is a property of the architecture, not a settings page. This document states
 exactly what data exists, where, for how long — and, equally important, what anonymity
@@ -53,6 +53,6 @@ Closing the tab destroys them along with everything needed to rejoin a conversat
 
 ## Regulatory posture
 Because we collect minimal, non-identifying, short-lived technical data and no personal data,
-GhostLink carries a small GDPR/CCPA surface: no profiling, no marketing, no third-party
+Persona carries a small GDPR/CCPA surface: no profiling, no marketing, no third-party
 advertising, no data sales. What little session data exists has built-in expiry and is fully
 deletable on demand (burn session).

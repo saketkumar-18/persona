@@ -1,4 +1,4 @@
-/** @ghostlink/shared — types, protocol, crypto, geo, id and validation utils. */
+/** @persona/shared — types, protocol, crypto, geo, id and validation utils. */
 
 export * from './types';
 export * from './protocol';

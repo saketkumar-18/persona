@@ -14,7 +14,11 @@
     "declaration": false,
     "sourceMap": true,
     "outDir": "dist",
-    "types": ["node", "jest"]
+    "types": ["node", "jest"],
+    "baseUrl": ".",
+    "paths": {
+      "@persona/shared": ["../../packages/shared/src/index.ts"]
+    }
   },
   "include": ["src", "test"],
   "exclude": ["node_modules", "dist"]

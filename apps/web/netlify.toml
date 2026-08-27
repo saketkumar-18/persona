@@ -1,0 +1,19 @@
+[build]
+  command = "npm run build -w @persona/web"
+  publish = "out"
+
+[functions]
+  node_bundler = "esbuild"
+
+[[redirects]]
+  from = "/join/*"
+  to = "/join/:splat"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"

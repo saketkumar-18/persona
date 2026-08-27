@@ -34,3 +34,10 @@ apps/web/public/service-worker.js
 
 # Docker volumes (redis.pwd is user-edited; keep the committed default)
 docker-compose.override.yml
+
+# Local Netlify folder
+.netlify
+
+# Stray runtime artifacts
+install.pid
+*.log

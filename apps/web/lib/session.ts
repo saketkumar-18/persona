@@ -13,7 +13,7 @@ import {
   GHOST_EMOJIS,
   generateSessionKeyPair,
   publicKeyFingerprint,
-} from '@ghostlink/shared';
+} from '@persona/shared';
 import { api } from './api';
 import { loadStoredSession, storeSession, clearStoredSession, StoredGhostSession } from './storage';
 

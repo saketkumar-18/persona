@@ -4,7 +4,7 @@ import {
   deriveRoomKey,
   encryptChatMessage,
   decryptChatMessage,
-} from '@ghostlink/shared';
+} from '@persona/shared';
 
 /**
  * Full client-side chat pipeline test: two simulated browser sessions derive

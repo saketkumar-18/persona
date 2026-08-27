@@ -1,4 +1,4 @@
-# GhostLink Architecture
+# Persona Architecture
 
 ## Design principles
 
