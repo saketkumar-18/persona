@@ -59,7 +59,9 @@ export class InviteService {
     // At this point, slug is always assigned (both branches return early if not)
     const expiresAt = Date.now() + this.config.defaultRoomTtlSeconds * 1000;
     const baseUrl = process.env.INVITE_BASE_URL || 'https://ghostlink-web-eight.vercel.app';
-    return { slug: slug!, url: `${baseUrl}/join/${slug!}`, expiresAt };
+    // Query-param form so the static-export frontend can handle any slug
+    // without pre-rendering a route per invite.
+    return { slug: slug!, url: `${baseUrl}/join?slug=${encodeURIComponent(slug!)}`, expiresAt };
   }
 
   /** Join an invite room by slug (the second participant). */

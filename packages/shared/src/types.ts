@@ -174,6 +174,19 @@ export interface ConnectResponse {
   partner?: PartnerInfo;
 }
 
+export interface CreateInviteResponse {
+  /** Empty slug/url when rate-limited or the custom slug is taken. */
+  slug: string;
+  url: string;
+  expiresAt: number;
+}
+
+export interface JoinInviteResponse {
+  ok: boolean;
+  roomId?: string;
+  partner?: PartnerInfo;
+}
+
 export interface StatusSnapshot {
   activeSessions: number;
   activeRooms: number;

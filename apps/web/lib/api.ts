@@ -10,6 +10,8 @@ import {
   ReportResponse,
   StatusSnapshot,
   OkResponse,
+  CreateInviteResponse,
+  JoinInviteResponse,
 } from '@ghostlink/shared';
 import { API_BASE } from './env';
 
@@ -72,6 +74,14 @@ export const api = {
 
   connectDirect(token: string, sessionId: string): Promise<ConnectResponse> {
     return http('/qr/connect', { method: 'POST', body: JSON.stringify({ sessionId }) }, token);
+  },
+
+  createInvite(token: string, slug?: string): Promise<CreateInviteResponse> {
+    return http('/invite/create', { method: 'POST', body: JSON.stringify(slug ? { slug } : {}) }, token);
+  },
+
+  joinInvite(token: string, slug: string): Promise<JoinInviteResponse> {
+    return http('/invite/join', { method: 'POST', body: JSON.stringify({ slug }) }, token);
   },
 
   block(token: string, sessionId: string, roomId?: string, reason?: string): Promise<BlockResponse> {

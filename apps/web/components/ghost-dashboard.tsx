@@ -11,16 +11,18 @@ import ChatRoom from './chat-room';
 import DiscoverNearby from './discover-nearby';
 import QrHost from './qr-host';
 import QrScanner from './qr-scanner';
+import InviteHost from './invite-host';
 import GhostZones from './ghost-zones';
 import { pushToast } from './toast';
 
-type Tab = 'match' | 'nearby' | 'qr' | 'scan' | 'zone';
+type Tab = 'match' | 'nearby' | 'qr' | 'scan' | 'invite' | 'zone';
 
 const TABS: Array<{ id: Tab; label: string }> = [
   { id: 'match', label: '🎲 Match' },
   { id: 'nearby', label: '📍 Nearby' },
   { id: 'qr', label: '🟩 My QR' },
   { id: 'scan', label: '📷 Scan' },
+  { id: 'invite', label: '🔗 Invite' },
   { id: 'zone', label: '🌫️ Zone' },
 ];
 
@@ -182,6 +184,8 @@ export default function GhostDashboard() {
       {tab === 'qr' && session && <QrHost session={session} onPaired={onPaired} />}
 
       {tab === 'scan' && session && <QrScanner session={session} onPaired={onPaired} />}
+
+      {tab === 'invite' && session && <InviteHost session={session} onPaired={onPaired} />}
 
       {tab === 'zone' && session && (
         <GhostZones
