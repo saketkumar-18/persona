@@ -11,6 +11,8 @@ import { DiscoveryService } from './discovery/discovery.service';
 import { DiscoveryController } from './discovery/discovery.controller';
 import { QrService } from './qr/qr.service';
 import { QrController } from './qr/qr.controller';
+import { InviteService } from './invite/invite.service';
+import { InviteController } from './invite/invite.controller';
 import { ModerationService } from './moderation/moderation.service';
 import { ModerationController } from './moderation/moderation.controller';
 import { SystemController } from './system/system.controller';
@@ -29,6 +31,7 @@ import { RealtimeGateway } from './realtime/realtime.gateway';
     SessionController,
     DiscoveryController,
     QrController,
+    InviteController,
     ModerationController,
     SystemController,
   ],
@@ -38,6 +41,7 @@ import { RealtimeGateway } from './realtime/realtime.gateway';
     MatchingService,
     DiscoveryService,
     QrService,
+    InviteService,
     ModerationService,
     RealtimeGateway,
     { provide: APP_GUARD, useClass: ThrottlerGuard },

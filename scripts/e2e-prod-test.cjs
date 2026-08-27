@@ -84,7 +84,7 @@ function emitAck(sock, event, payload, label) {
     const C = await connect(c.token, 'C');
     D2 = await connect(d.token, 'D');
     var D2_ref = D2;
-    const qres = await fetch(`${API}/api/qr`, { method: 'POST', headers: { Authorization: `Bearer ${c.token}`, 'Content-Type': 'application/json' } }).then((r) => r.json());
+    const qres = await fetch(`${API}/api/qr/create`, { method: 'POST', headers: { Authorization: `Bearer ${c.token}`, 'Content-Type': 'application/json' } }).then((r) => r.json());
     console.log('[C] qr create:', JSON.stringify(qres).slice(0, 120));
     if (qres.code) {
       const rred = await fetch(`${API}/api/qr/redeem`, { method: 'POST', headers: { Authorization: `Bearer ${d.token}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ code: qres.code }) }).then((r) => r.json());

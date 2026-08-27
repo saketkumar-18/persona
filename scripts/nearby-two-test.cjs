@@ -1,6 +1,6 @@
 const { webcrypto } = require('node:crypto');
 if (!globalThis.crypto) globalThis.crypto = webcrypto;
-const API = 'http://localhost:4015';
+const API = 'https://ghostlink-api.onrender.com';
 (async () => {
   async function mk(alias) {
     const kp = await crypto.subtle.generateKey({ name:'ECDH', namedCurve:'P-256' }, true, ['deriveBits']);

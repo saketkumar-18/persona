@@ -8,7 +8,9 @@ export interface StoredRoom {
   members: [string, string];
   createdAt: number;
   expiresAt: number;
-  kind: 'global' | 'zone' | 'qr';
+  kind: 'global' | 'zone' | 'qr' | 'invite';
+  /** For invite rooms: the human-readable slug (e.g., "cozy-forest-42"). */
+  inviteSlug?: string;
 }
 
 /**
@@ -29,11 +31,34 @@ export class RoomService {
     return `room:${id}`;
   }
 
+  private inviteSlugKey(slug: string): string {
+    return `room:invite:${slug}`;
+  }
+
   async createRoom(members: [string, string], kind: StoredRoom['kind']): Promise<StoredRoom> {
+    return this.createRoomWithSlug(members, kind, undefined);
+  }
+
+  /** Create an invite room with a specific human-readable slug. */
+  async createInviteRoom(members: [string, string], slug: string): Promise<StoredRoom | null> {
+    const cleanSlug = slug.toLowerCase().trim();
+    if (!/^[a-z0-9-]{3,32}$/.test(cleanSlug)) return null;
+    // Check if slug is taken
+    const existing = await this.redis.get(this.inviteSlugKey(cleanSlug));
+    if (existing) return null;
+    return this.createRoomWithSlug(members, 'invite', cleanSlug);
+  }
+
+  private async createRoomWithSlug(
+    members: [string, string],
+    kind: StoredRoom['kind'],
+    inviteSlug: string | undefined,
+  ): Promise<StoredRoom> {
     const id = generateRoomId();
     const now = Date.now();
     const ttl = this.config.defaultRoomTtlSeconds;
     const room: StoredRoom = { id, members, createdAt: now, expiresAt: now + ttl * 1000, kind };
+    if (inviteSlug) room.inviteSlug = inviteSlug;
     await this.redis.set(this.key(id), JSON.stringify(room), ttl);
     await this.redis.sadd('rooms:active', id);
     await this.redis.expire('rooms:active', ttl);
@@ -41,7 +66,11 @@ export class RoomService {
     for (const m of members) {
       await this.redis.set(`sessroom:${m}`, id, ttl);
     }
-    this.logger.debug(`Room created: ${id} (${kind})`);
+    // invite slug -> room id mapping
+    if (inviteSlug) {
+      await this.redis.set(this.inviteSlugKey(inviteSlug), id, ttl);
+    }
+    this.logger.debug(`Room created: ${id} (${kind}${inviteSlug ? `, invite:${inviteSlug}` : ''})`);
     return room;
   }
 
@@ -58,6 +87,14 @@ export class RoomService {
     } catch {
       return null;
     }
+  }
+
+  /** Get room by invite slug. */
+  async getRoomByInviteSlug(slug: string): Promise<StoredRoom | null> {
+    const cleanSlug = slug.toLowerCase().trim();
+    const roomId = await this.redis.get(this.inviteSlugKey(cleanSlug));
+    if (!roomId) return null;
+    return this.getRoom(roomId);
   }
 
   async roomForSession(sessionId: string): Promise<StoredRoom | null> {
@@ -80,6 +117,10 @@ export class RoomService {
       for (const m of room.members) {
         await this.redis.del(`sessroom:${m}`);
         await this.redis.srem('rooms:active', id);
+      }
+      // Clean up invite slug mapping
+      if (room.inviteSlug) {
+        await this.redis.del(this.inviteSlugKey(room.inviteSlug));
       }
     }
     await this.redis.del(this.key(id));

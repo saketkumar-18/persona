@@ -41,3 +41,20 @@ export function generateQrCode(): string {
   }
   return `ql_${out}`;
 }
+
+/** Invite slug: 2-3 words + number, e.g., "cozy-forest-42". */
+const INVITE_ADJECTIVES = [
+  'cozy', 'wild', 'quiet', 'swift', 'calm', 'bright', 'deep', 'soft', 'warm', 'cool',
+  'gentle', 'keen', 'vivid', 'mellow', 'crisp', 'still', 'fresh', 'noble', 'kind', 'true',
+];
+const INVITE_NOUNS = [
+  'forest', 'river', 'mountain', 'meadow', 'valley', 'ocean', 'sky', 'star', 'moon', 'sun',
+  'leaf', 'stone', 'breeze', 'wave', 'cloud', 'path', 'shore', 'garden', 'harbor', 'cove',
+];
+
+export function generateInviteSlug(): string {
+  const adj = INVITE_ADJECTIVES[Math.floor(Math.random() * INVITE_ADJECTIVES.length)];
+  const noun = INVITE_NOUNS[Math.floor(Math.random() * INVITE_NOUNS.length)];
+  const num = Math.floor(Math.random() * 900) + 100; // 100-999
+  return `${adj}-${noun}-${num}`;
+}
