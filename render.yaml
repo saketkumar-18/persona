@@ -14,6 +14,8 @@ services:
       # Render injects $PORT on free instances; the server honors PORT (see apps/server/src/core/config.ts).
       - key: ALLOWED_ORIGINS
         value: https://persona-chat.vercel.app,https://persona-lovat-xi.vercel.app
+      - key: INVITE_BASE_URL
+        value: https://persona-chat.vercel.app
       - key: SESSION_JWT_SECRET
         generateValue: true
       - key: PARTNER_CONTROL_SECRET

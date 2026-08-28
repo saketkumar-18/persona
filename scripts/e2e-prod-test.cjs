@@ -1,6 +1,6 @@
 /* Live production E2E test: two clients, real server.
  * Reproduces: session create → WS connect → random match → chat A→B and B→A → QR pair. */
-const API = 'https://persona-api.onrender.com';
+const API = 'https://ghostlink-api.onrender.com';
 
 // minimal WebCrypto polyfill via node:crypto webcrypto
 const { webcrypto } = require('node:crypto');

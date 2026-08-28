@@ -43,9 +43,12 @@ export default function InviteHost({ session }: InviteHostProps) {
           return;
         }
         setSlug(res.slug);
-        setUrl(res.url);
+        // Build the share link from the CURRENT origin so it always points at
+        // wherever the app is served (server's res.url may carry a stale base).
+        const link = `${window.location.origin}/join?slug=${encodeURIComponent(res.slug)}`;
+        setUrl(link);
         setExpiresAt(res.expiresAt);
-        setSvg(await QRCode.toString(res.url, { type: 'svg', margin: 1, width: 200 }));
+        setSvg(await QRCode.toString(link, { type: 'svg', margin: 1, width: 200 }));
       } catch (e) {
         pushToast(e instanceof Error ? e.message : 'failed to create invite');
       } finally {
