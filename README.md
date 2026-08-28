@@ -17,7 +17,7 @@ Backend + Redis land automatically. See [docs/DEPLOY_FREE.md](docs/DEPLOY_FREE.m
 
 ## Live demo
 
-**https://persona.vercel.app** — no signup, no login. One tap creates an
+**https://persona-chat.vercel.app** — no signup, no login. One tap creates an
 ephemeral ghost session; scan the QR on any phone to jump straight into the lobby.
 
 ![Persona QR — scan to chat](docs/assets/persona-qr.png)

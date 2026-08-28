@@ -41,3 +41,6 @@ docker-compose.override.yml
 # Stray runtime artifacts
 install.pid
 *.log
+
+.vercel
+.env*

@@ -13,7 +13,7 @@ services:
         value: production
       # Render injects $PORT on free instances; the server honors PORT (see apps/server/src/core/config.ts).
       - key: ALLOWED_ORIGINS
-        value: https://persona.vercel.app,https://persona-845.netlify.app
+        value: https://persona-chat.vercel.app,https://persona-lovat-xi.vercel.app
       - key: SESSION_JWT_SECRET
         generateValue: true
       - key: PARTNER_CONTROL_SECRET
