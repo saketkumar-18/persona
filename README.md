@@ -2,23 +2,22 @@
 
 **Privacy-first social discovery and real-time communication platform — no accounts, ever.**
 
+> Built by **Saket Kumar** — B.Sc Data Science & AI, IIT Guwahati
+
 Persona lets people connect with nearby users or random matches anywhere in the world
 without registration, profiles, or persistent data. Sessions are ephemeral tokens; chats are
 end-to-end encrypted and self-destruct; location is coarsened on-device before it ever leaves
 the browser.
 
-![CI](https://github.com/saketkumar-18/Persona/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/saketkumar-18/persona/actions/workflows/ci.yml/badge.svg)
 
-## Deploy in one click (free)
+## Live demo — free for everyone
 
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/saketkumar-18/Persona)
-
-Backend + Redis land automatically. See [docs/DEPLOY_FREE.md](docs/DEPLOY_FREE.md) for the Vercel frontend steps.
-
-## Live demo
-
-**https://persona-chat.vercel.app** — no signup, no login. One tap creates an
+**👉 https://persona-chat.vercel.app** — no signup, no login. One tap creates an
 ephemeral ghost session; scan the QR on any phone to jump straight into the lobby.
+
+The hosted app is free to use. The source code in this repository is **not** —
+see [License](#license) below.
 
 ![Persona QR — scan to chat](docs/assets/persona-qr.png)
 
@@ -44,7 +43,11 @@ ephemeral ghost session; scan the QR on any phone to jump straight into the lobb
 - **State**: Redis (ephemeral by design; automatic in-memory fallback for dev)
 - **Infra**: Docker Compose · GitHub Actions CI · Prometheus metrics · health checks
 
-## Quick start
+## Quick start (for reference)
+
+> ⚠️ You may run the code locally to evaluate the architecture. Copying,
+> redistributing, modifying, or building on it is not permitted without written
+> permission (see [License](#license)).
 
 ```bash
 # 1) install
