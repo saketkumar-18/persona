@@ -116,4 +116,10 @@ Persona/
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+**© 2026 Saket Kumar. All Rights Reserved.** This repository is public for
+visibility only — it is **not open source**. Copying, modifying,
+redistributing, or commercially using this code is prohibited without prior
+written permission (see [LICENSE](LICENSE)).
+
+The hosted web application at **https://persona-chat.vercel.app** is free for
+anyone to use.

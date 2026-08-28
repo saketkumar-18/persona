@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "description": "Privacy-first social discovery platform with anonymous temporary sessions and real-time encrypted communication",
-  "license": "MIT",
+  "license": "UNLICENSED",
   "engines": {
     "node": ">=20.0.0"
   },
